@@ -1,4 +1,5 @@
 import Redis from 'ioredis';
+import { v4 as uuid } from 'uuid';
 
 const redis = new Redis({
     host: 'localhost',
@@ -6,7 +7,9 @@ const redis = new Redis({
 });
 
 export async function addEntry(source: string, description: string) {
-    const result = await redis.call("JSON.ARRAPPEND", "redirects", "data", JSON.stringify({ source, description }));
+    console.log("source", source)
+    console.log("description", description)
+    const result = await redis.call("JSON.ARRAPPEND", "redirects", "data", JSON.stringify({ id: uuid(), source, description }));
     return result;
 }
 
